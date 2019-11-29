@@ -26,3 +26,4 @@ router
 - master  带有web支持的
 - support 作为调用的(没有web模块) 默认发布的是这个版本 `go get github.com/dollarkillerx/publicDns`
 
+### 测试发现好多dns都不能用 本地还要做个dns的数据清洗

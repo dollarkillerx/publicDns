@@ -9,6 +9,7 @@ package test
 import (
 	"bytes"
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -31,4 +32,27 @@ func TestDecodeCsv(t *testing.T) {
 		}
 		fmt.Println(record)
 	}
+}
+
+//type sliTest
+//
+//func TestSlice(t *testing.T) {
+//	sli := make([]string, 0)
+//	sli1(&sli)
+//	log.Println(sli)
+//}
+//func sli1(sli *[]string) {
+//	sli = append(sli, "asdas")
+//}
+
+func TestSLic(t *testing.T) {
+	c := []string{
+		"sdasd",
+		"dsadas",
+	}
+	marshal, e := json.Marshal(c)
+	if e != nil {
+		panic(e)
+	}
+	ioutil.WriteFile("ss.dic", []byte(marshal), 00666)
 }
