@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/dollarkillerx/erguotou/clog"
+	"github.com/dollarkillerx/easyutils/clog"
 	"github.com/dollarkillerx/publicDns/datasource"
 )
 
@@ -35,12 +35,15 @@ func UpdatePublicDnsListService() bool {
 
 func GetPublicDnsListService() ([]*datasource.DnsDataList, error) {
 	dnsMu.Lock()
-	defer dnsMu.Unlock()
-	if DnsList == nil {
+	lists := DnsList
+	dnsMu.Unlock()
+	if lists == nil {
 		if err := UpdatePublicDnsListService(); !err {
 			return nil, errors.New("dns error")
 		}
 	}
+	dnsMu.Lock()
+	defer dnsMu.Unlock()
 	return DnsList, nil
 }
 

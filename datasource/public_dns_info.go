@@ -10,9 +10,9 @@ import (
 	"errors"
 	"strconv"
 
+	"github.com/dollarkillerx/csvtools"
 	"github.com/dollarkillerx/easyutils/httplib"
 	"github.com/dollarkillerx/publicDns/utils"
-	"github.com/gocarina/gocsv"
 )
 
 type PublicDnsInfo struct {
@@ -71,12 +71,37 @@ func (p *PublicDnsInfo) dowDataCsv() ([]*PublicDnsInfoDataSourceCsv, error) {
 			continue
 		}
 		// 如果没有问题 就 下载文件到本地 并重新命名
-		csv := []*PublicDnsInfoDataSourceCsv{}
-		e = gocsv.UnmarshalBytes(bytes, &csv)
+		csv, e := p.bind(bytes)
 		if e != nil {
 			return nil, e
 		}
 		return csv, nil
 	}
 	return nil, errors.New("dow error")
+}
+
+func (p *PublicDnsInfo) bind(byt []byte) ([]*PublicDnsInfoDataSourceCsv, error) {
+	result := []*PublicDnsInfoDataSourceCsv{}
+	readByte, e := csvtools.ReadByte(byt)
+	if e != nil {
+		return nil, e
+	}
+	decode := readByte.Decode()
+	for _, v := range decode {
+		item := PublicDnsInfoDataSourceCsv{
+			v[0],
+			v[1],
+			v[2],
+			v[3],
+			v[4],
+			v[5],
+			v[6],
+			v[7],
+			v[8],
+			v[9],
+		}
+		result = append(result, &item)
+	}
+	result = result[1:]
+	return result, nil
 }
