@@ -19,3 +19,8 @@ router
 ### 更新日志
 - init project (完善基本功能)
 - 加入 定时任务  (每三天更新一次dnsList)
+
+### 分支 与 发布
+- master  带有web支持的
+- support 作为调用的(没有web模块) 默认发布的是这个版本 `go get github.com/dollarkillerx/publicDns`
+
