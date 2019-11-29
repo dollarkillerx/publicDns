@@ -7,12 +7,13 @@
 package main
 
 import (
+	"log"
+	"os"
+
 	"github.com/dollarkillerx/erguotou"
 	"github.com/dollarkillerx/erguotou/clog"
 	"github.com/dollarkillerx/publicDns/controller"
 	"github.com/dollarkillerx/publicDns/service"
-	"log"
-	"os"
 )
 
 func main() {

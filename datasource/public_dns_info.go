@@ -8,10 +8,11 @@ package datasource
 
 import (
 	"errors"
+	"strconv"
+
 	"github.com/dollarkillerx/easyutils/httplib"
 	"github.com/dollarkillerx/publicDns/utils"
 	"github.com/gocarina/gocsv"
-	"strconv"
 )
 
 type PublicDnsInfo struct {
