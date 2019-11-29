@@ -15,3 +15,7 @@ router
 /update        # 更新dns列表
 /getdnslist    # 获取dns list
 ```
+
+### 更新日志
+- init project (完善基本功能)
+- 加入 定时任务  (每三天更新一次dnsList)

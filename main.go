@@ -10,6 +10,7 @@ import (
 	"github.com/dollarkillerx/erguotou"
 	"github.com/dollarkillerx/erguotou/clog"
 	"github.com/dollarkillerx/publicDns/controller"
+	"github.com/dollarkillerx/publicDns/service"
 	"log"
 	"os"
 )
@@ -34,4 +35,7 @@ func router(app *erguotou.Engine) {
 	app.Get("/update", controller.UpdateDnsList)
 	// 返回给用户dns list
 	app.Get("/getdnslist", controller.GetDnsList)
+
+	// 启动更新定时任务
+	go service.UpdateRegularly()
 }
