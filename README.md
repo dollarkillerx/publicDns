@@ -3,8 +3,10 @@
 
 ### 依赖
 - Erguotou Web Framework github.com/dollarkillerx/erguotou
-- easyutils github.com/dollarkillerx/easyutils
-- gocsv github.com/gocarina/gocsv
+- easyutils  github.com/dollarkillerx/easyutils
+- csvtools   github.com/dollarkillerx/csvtools
+
+自研全家桶 哈
 
 ### 如何使用
 ``` 
