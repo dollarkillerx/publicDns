@@ -29,3 +29,16 @@ func GetDnsList(ctx *erguotou.Context) {
 	}
 	ctx.Json(200, lists)
 }
+
+// 获取dns list 通过国家名称过滤
+func GetDnsListFilterByCountry(ctx *erguotou.Context) {
+	s, b := ctx.PathValueString("filter")
+	if !b || s == "" || s == "fd" {
+		dnsService := service.GetDevelopedCountryPublicDnsService()
+		ctx.Json(200, dnsService)
+		return
+	}
+	dnsService := service.GetFilterCountryPublicDnsService(s)
+	ctx.Json(200, dnsService)
+
+}

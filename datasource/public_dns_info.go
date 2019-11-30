@@ -56,7 +56,7 @@ func (p *PublicDnsInfo) GetDataList() ([]*DnsDataList, error) {
 			continue
 		}
 		if f > 0.8 {
-			csv = append(csv, &DnsDataList{Ip: v.IP})
+			csv = append(csv, &DnsDataList{Ip: v.IP, Country: v.City})
 		}
 	}
 	return csv, nil

@@ -11,6 +11,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"log"
+	"strings"
 	"sync"
 	"time"
 
@@ -21,6 +22,9 @@ import (
 
 var dnsMu sync.Mutex
 var DnsList []string
+
+var DNSMu sync.Mutex
+var DNSList []datasource.DnsDataList
 
 var dnsC sync.Mutex // 为了保证只能有一个协程来清洗dns
 
@@ -38,6 +42,21 @@ func UpdatePublicDnsListService() bool {
 	lis := cleanDnsListNew(lists).Run()
 	log.Println("dns清洗完毕!!!")
 	dnsC.Unlock()
+
+	// 清洗域名   (懒的改了 怎么容易怎么来把  反正go快)
+	go func() {
+		sc := []datasource.DnsDataList{}
+		for _, v := range lis {
+			for _, c := range lists {
+				if v == c.Ip {
+					sc = append(sc, *c)
+				}
+			}
+		}
+		DNSMu.Lock()
+		DNSList = sc
+		DNSMu.Unlock()
+	}()
 
 	dnsMu.Lock()
 	DnsList = lis
@@ -67,6 +86,35 @@ func GetPublicDnsListService() ([]string, error) {
 	dnsMu.Lock()
 	defer dnsMu.Unlock()
 	return DnsList, nil
+}
+
+// 获取发达国家PublicDnsService
+func GetDevelopedCountryPublicDnsService() []string {
+	DNSMu.Lock()
+	dns := DNSList
+	DNSMu.Unlock()
+	dnsList := []string{}
+
+	for _, ac := range dns {
+		if strings.Index("US DE CA GB CH AU FR NO ES SE BG RO JP KR", ac.Country) != -1 {
+			dnsList = append(dnsList, ac.Ip)
+		}
+	}
+	return dnsList
+}
+
+func GetFilterCountryPublicDnsService(filter string) []string {
+	DNSMu.Lock()
+	dns := DNSList
+	DNSMu.Unlock()
+	dnsList := []string{}
+
+	for _, ac := range dns {
+		if strings.Index(filter, ac.Country) != -1 {
+			dnsList = append(dnsList, ac.Ip)
+		}
+	}
+	return dnsList
 }
 
 // 定时任务更新dnsList
@@ -149,7 +197,7 @@ loop:
 
 func (c *cleanDnsList) checkDns(dns string) bool {
 	resolver := dns_resolver.New([]string{dns})
-	ips, e := resolver.LookupHost("www.google.com")
+	ips, e := resolver.LookupHost("www.dollarkiller.com")
 	if e != nil || len(ips) == 0 {
 		return false
 	}

@@ -14,8 +14,9 @@
 ```
 router
 ``` 
-/update        # 更新dns列表
-/getdnslist    # 获取dns list
+/update              # 更新dns列表
+/getdnslist          # 获取dns list
+/getdnslist/:filter  # 按国家过滤 (fd返回一些发达国家dns,其他国家输入CN,US,JP)
 ```
 
 ### 更新日志

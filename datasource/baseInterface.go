@@ -13,5 +13,6 @@ type DnsDataSource interface {
 }
 
 type DnsDataList struct {
-	Ip string
+	Ip      string
+	Country string // 国家代码
 }

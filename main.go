@@ -37,6 +37,9 @@ func router(app *erguotou.Engine) {
 	// 返回给用户dns list
 	app.Get("/getdnslist", controller.GetDnsList)
 
+	// 获取指定国家dns
+	app.Get("/getdnslist/:filter", controller.GetDnsListFilterByCountry)
+
 	// 启动更新定时任务
 	go service.UpdateRegularly()
 }
